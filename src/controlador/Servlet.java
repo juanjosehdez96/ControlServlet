@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -55,9 +56,16 @@ public class Servlet extends HttpServlet {
 			case "InicioSesion":
 				if (request.getParameter("enviar") != null) {
 					try {
-						iniciarSesion(request);
+						if (iniciarSesion(request))
+							url = base + "ejercicio2.jsp";
+						else
+							request.setAttribute("error", "Usuario no registrado");
+						
+						url = base + "ejercicio2.jsp";
+						break;
+
 					} catch (SQLException e) {
-						// TODO Auto-generated catch block
+
 						e.printStackTrace();
 					}
 				}
@@ -71,6 +79,7 @@ public class Servlet extends HttpServlet {
 
 			case "Ejercicios":
 				if (request.getParameter("ejercicio1") != null) {
+					enlaces(request);
 					url = base + "ejercicio1.jsp";
 					break;
 
@@ -94,9 +103,9 @@ public class Servlet extends HttpServlet {
 
 		stm.setString(1, request.getParameter("nombre"));
 		stm.setString(2, request.getParameter("contrasena"));
-		
+
 		ResultSet resultado = stm.executeQuery();
-		
+
 		if (resultado.next()) {
 			System.out.println("Usuario encontrado");
 			HttpSession sesion = request.getSession();
@@ -133,6 +142,23 @@ public class Servlet extends HttpServlet {
 
 			return null;
 		}
+	}
+	
+	public void enlaces (HttpServletRequest request) {
+		
+		HttpSession sesion = request.getSession();
+		
+		ArrayList<String> enlaces = new ArrayList<String>();
+		
+		enlaces.add("http://www.facebook.com");
+		enlaces.add("http://www.youtube.com");
+		enlaces.add("http://www.github.com");
+		enlaces.add("http://www.ieselrincon.org");
+		enlaces.add("http://www.laprovincia.es");
+		
+		
+		sesion.setAttribute("arrayEnlaces", enlaces);		
+		
 	}
 
 }

@@ -31,17 +31,20 @@
 		if (nombreUsuario != null) {
 	%>
 	<h1 style="margin-top: 7%;">Sesión Iniciada con exito</h1>
-	<h2 style="text-align: center">Bienvenido:	<%=nombreUsuario.toUpperCase()%></h2>
-	
+	<h2 style="text-align: center">
+		Bienvenido:
+		<%=nombreUsuario.toUpperCase()%></h2>
+
 	<form action="Hola?action=cerrarSesion" method="post">
-		<button class="button button-block" name="cerrarSesion" style="width: 30%; margin: auto; margin-top: 5%;"> Cerrar
+		<button class="button button-block" name="cerrarSesion"
+			style="width: 30%; margin: auto; margin-top: 5%;">Cerrar
 			Sesión</button>
 	</form>
-	
+
 	<%
 		} else {
 	%>
-	
+
 	<div class="form">
 
 		<ul class="tab-group">
@@ -70,6 +73,16 @@
 					<p class="forgot">
 						<a href="#">¿Olvidaste tu contraseña?</a>
 					</p>
+					<%
+					String error = (String) request.getAttribute("error");
+						if ( error != null) {
+					%>
+					
+						<h3 style="color: red; text-align:center"><%=error %></h3>
+					
+					<%
+						}
+					%>
 
 					<button class="button button-block" name="enviar">Iniciar
 						Sesión</button>
